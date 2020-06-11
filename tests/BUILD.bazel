@@ -1,4 +1,4 @@
-load("//:def.bzl", "nfpm_package")
+load("//nfpm:defs.bzl", "nfpm_package")
 
 filegroup(
     name = "text-files",
