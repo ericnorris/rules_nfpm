@@ -21,7 +21,7 @@ sh_binary(
         "-bazel_run",
         "update-repos",
         "-from_file go/go.mod",
-        "-to_macro=deps.bzl%_rules_nfpm_go_repositories",
+        "-to_macro=nfpm/go_repositories.bzl%_rules_nfpm_go_repositories",
         "-prune=true",
     ],
 )

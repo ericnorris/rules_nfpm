@@ -1,6 +1,12 @@
-load("@bazel_gazelle//:deps.bzl", "go_repository")
+load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_toolchains")
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("//nfpm/internal:maybe_go_repository.bzl", go_repository = "maybe_go_repository")
 
-def rules_nfpm_dependencies():
+def rules_nfpm_go_dependencies():
+    go_rules_dependencies()
+    go_register_toolchains()
+    gazelle_dependencies()
+
     _rules_nfpm_go_repositories()
 
 def _rules_nfpm_go_repositories():
@@ -33,6 +39,12 @@ def _rules_nfpm_go_repositories():
         importpath = "github.com/alecthomas/kingpin",
         sum = "h1:5svnBTFgJjZvGKyYBtMB0+m5wvrbUHiqye8wRJMlnYI=",
         version = "v2.2.6+incompatible",
+    )
+    go_repository(
+        name = "com_github_alecthomas_kong",
+        importpath = "github.com/alecthomas/kong",
+        sum = "h1:WGuTS/N2/NQ/9LymVqpr1ifZ4EEkQPvwFHqZs6ak5IU=",
+        version = "v0.2.9",
     )
     go_repository(
         name = "com_github_alecthomas_template",
@@ -1269,10 +1281,4 @@ def _rules_nfpm_go_repositories():
         importpath = "go.uber.org/zap",
         sum = "h1:ORx85nbTijNz8ljznvCMR1ZBIPKFn3jQrag10X2AsuM=",
         version = "v1.10.0",
-    )
-    go_repository(
-        name = "com_github_alecthomas_kong",
-        importpath = "github.com/alecthomas/kong",
-        sum = "h1:WGuTS/N2/NQ/9LymVqpr1ifZ4EEkQPvwFHqZs6ak5IU=",
-        version = "v0.2.9",
     )
