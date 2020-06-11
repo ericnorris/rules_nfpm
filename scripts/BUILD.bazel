@@ -1,0 +1,27 @@
+load("@bazel_gazelle//:def.bzl", "gazelle")
+
+gazelle(name = "gazelle")
+
+sh_binary(
+    name = "generate-go-build-files",
+    srcs = [":gazelle-runner"],
+    args = [
+        "-bazel_run",
+        "update",
+        "-mode=fix",
+        "-index=false",
+        "go/",
+    ],
+)
+
+sh_binary(
+    name = "generate-go-repositories",
+    srcs = [":gazelle-runner"],
+    args = [
+        "-bazel_run",
+        "update-repos",
+        "-from_file go/go.mod",
+        "-to_macro=deps.bzl%_rules_nfpm_go_repositories",
+        "-prune=true",
+    ],
+)

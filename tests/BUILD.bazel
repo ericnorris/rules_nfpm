@@ -1,0 +1,14 @@
+load("//:def.bzl", "nfpm_package")
+
+filegroup(
+    name = "text-files",
+    srcs = glob([
+        "*.txt",
+    ]),
+)
+
+nfpm_package(
+    name = "test.rpm",
+    config = "test-config.yaml",
+    deps = [":text-files"],
+)
