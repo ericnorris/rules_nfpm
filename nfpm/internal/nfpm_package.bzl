@@ -6,7 +6,7 @@ def _nfpm_package_impl(ctx):
     nfpm_args.add("--config", ctx.file.config.path)
     nfpm_args.add("--info-file", ctx.info_file.path)
     nfpm_args.add("--version-file", ctx.version_file.path)
-    nfpm_args.add_all(ctx.files.deps, before_each = "--dep", map_each = _format_arc)
+    nfpm_args.add_all(ctx.files.deps, before_each = "--dep", map_each = _format_dep)
     nfpm_args.add(package_file.path)
 
     nfpm_files = [
@@ -25,7 +25,7 @@ def _nfpm_package_impl(ctx):
 
     return [DefaultInfo(files = depset([package_file]))]
 
-def _format_arc(file):
+def _format_dep(file):
     return "{}={}".format(file.owner, file.path)
 
 nfpm_package = rule(
@@ -36,7 +36,6 @@ nfpm_package = rule(
             allow_single_file = True,
         ),
         "deps": attr.label_list(
-            mandatory = True,
             allow_files = True,
         ),
         "_nfpm": attr.label(
