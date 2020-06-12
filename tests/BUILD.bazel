@@ -12,3 +12,9 @@ nfpm_package(
     config = "test-config.yaml",
     deps = [":text-files"],
 )
+
+nfpm_package(
+    name = "test.deb",
+    config = "test-config.yaml",
+    deps = [":text-files"],
+)

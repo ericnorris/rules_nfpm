@@ -6,15 +6,14 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 
 	"github.com/goreleaser/nfpm"
-	"github.com/pkg/errors"
-
-	// /deb and /rpm both use package-level init :(
 	_ "github.com/goreleaser/nfpm/deb"
 	_ "github.com/goreleaser/nfpm/rpm"
+	"github.com/pkg/errors"
 )
 
 type Cmd struct {
@@ -69,13 +68,21 @@ func (c *Cmd) Run() error {
 		return errors.Wrap(err, "error parsing generated config")
 	}
 
-	packageInfo, err := parsedConfig.Get("rpm")
+	format := filepath.Ext(c.Output)[1:]
 
-	out, err := os.Create(c.Output)
+	packageInfo, _ := parsedConfig.Get(format)
 
-	packager, err := nfpm.Get("rpm")
+	out, _ := os.Create(c.Output)
 
-	return packager.Package(packageInfo, out)
+	packager, err := nfpm.Get(format)
+
+	if err != nil {
+		return errors.Wrapf(err, "error getting packager for format '%s'", format)
+	}
+
+	if err := packager.Package(packageInfo, out); err != nil {
+		return errors.Wrapf(err, "error generating %s package", format)
+	}
 
 	return nil
 }
