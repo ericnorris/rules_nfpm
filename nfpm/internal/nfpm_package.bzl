@@ -7,8 +7,8 @@ def _nfpm_package_impl(ctx):
     nfpm_args = ctx.actions.args()
 
     nfpm_args.add("--config", ctx.file.config)
-    nfpm_args.add("--info-file", ctx.info_file)
-    nfpm_args.add("--version-file", ctx.version_file)
+    nfpm_args.add("--stable-status", ctx.info_file)
+    nfpm_args.add("--volatile-status", ctx.version_file)
     nfpm_args.add_all(ctx.files.deps, before_each = "--dep", map_each = _format_dep)
     nfpm_args.add(package_file.path)
 
