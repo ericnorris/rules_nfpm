@@ -1,0 +1,9 @@
+name:    test-package
+version: {{ index .StableStatus `STABLE_VERSION` }}
+arch:    amd64
+
+description: |
+    this is a package, it was generated at {{ index .VolatileStatus `BUILD_TIMESTAMP` }}.
+
+files:
+  "{{ index .Dependencies `//:example.txt`}}": /etc/example.txt

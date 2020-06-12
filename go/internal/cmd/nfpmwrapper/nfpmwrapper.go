@@ -47,10 +47,16 @@ func (c *Cmd) Run() error {
 		return errors.Errorf("unknown extension: '%s'", extension)
 	}
 
-	nfpmConfig, err := c.generateNFPMConfig()
+	generatedNFPMConfig, err := c.generateNFPMConfig()
 
 	if err != nil {
 		return err
+	}
+
+	nfpmConfig, err := nfpm.Parse(strings.NewReader(generatedNFPMConfig))
+
+	if err != nil {
+		return errors.Wrap(err, "error parsing generated config")
 	}
 
 	packageInfo, err := nfpmConfig.Get(packageFormat)
@@ -78,47 +84,47 @@ func (c *Cmd) Run() error {
 	return nil
 }
 
-func (c *Cmd) generateNFPMConfig() (nfpm.Config, error) {
+func (c *Cmd) generateNFPMConfig() (string, error) {
 	stableFile, err := os.Open(c.StableStatus)
 
 	if err != nil {
-		return nfpm.Config{}, errors.Wrap(err, "error opening non-volatile bazel workspace status file")
+		return "", errors.Wrap(err, "error opening non-volatile bazel workspace status file")
 	}
 
 	stableStatus, err := parseWorkspaceStatus(stableFile)
 
 	if err != nil {
-		return nfpm.Config{}, errors.Wrapf(err, "error parsing workspace status keys in '%s'", stableFile.Name())
+		return "", errors.Wrapf(err, "error parsing workspace status keys in '%s'", stableFile.Name())
 	}
 
 	volatileFile, err := os.Open(c.VolatileStatus)
 
 	if err != nil {
-		return nfpm.Config{}, errors.Wrap(err, "error opening volatile bazel workspace status file")
+		return "", errors.Wrap(err, "error opening volatile bazel workspace status file")
 	}
 
 	volatileStatus, err := parseWorkspaceStatus(volatileFile)
 
 	if err != nil {
-		return nfpm.Config{}, errors.Wrapf(err, "error parsing workspace status keys in '%s'", volatileFile.Name())
+		return "", errors.Wrapf(err, "error parsing workspace status keys in '%s'", volatileFile.Name())
 	}
 
 	dependencies, err := parseDeps(c.Deps)
 
 	if err != nil {
-		return nfpm.Config{}, err
+		return "", err
 	}
 
 	config, err := ioutil.ReadFile(c.Config)
 
 	if err != nil {
-		return nfpm.Config{}, errors.Wrap(err, "error reading config template")
+		return "", errors.Wrap(err, "error reading config template")
 	}
 
 	t, err := template.New("nfpm-config").Parse(string(config))
 
 	if err != nil {
-		return nfpm.Config{}, errors.Wrap(err, "error parsing config template")
+		return "", errors.Wrap(err, "error parsing config template")
 	}
 
 	builder := strings.Builder{}
@@ -130,16 +136,10 @@ func (c *Cmd) generateNFPMConfig() (nfpm.Config, error) {
 	}
 
 	if err := t.Execute(&builder, templateData); err != nil {
-		return nfpm.Config{}, errors.Wrap(err, "error generating config")
+		return "", errors.Wrap(err, "error generating config")
 	}
 
-	parsedConfig, err := nfpm.Parse(strings.NewReader(builder.String()))
-
-	if err != nil {
-		return nfpm.Config{}, errors.Wrap(err, "error parsing generated config")
-	}
-
-	return parsedConfig, nil
+	return builder.String(), nil
 }
 
 func parseWorkspaceStatus(r io.ReadCloser) (map[string]string, error) {

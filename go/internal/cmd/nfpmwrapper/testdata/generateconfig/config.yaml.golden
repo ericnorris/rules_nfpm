@@ -1,0 +1,9 @@
+name:    test-package
+version: v1.0.0.deadbeef
+arch:    amd64
+
+description: |
+    this is a package, it was generated at 1591634962.
+
+files:
+  "example.txt": /etc/example.txt

@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "go_default_library",
@@ -11,4 +11,23 @@ go_library(
         "@com_github_goreleaser_nfpm//rpm:go_default_library",
         "@com_github_pkg_errors//:go_default_library",
     ],
+)
+
+go_test(
+    name = "go_default_test",
+    size = "small",
+    srcs = ["nfpmwrapper_test.go"],
+    data = glob(["testdata/**"]),
+    embed = [":go_default_library"],
+    deps = ["@com_github_google_go_cmp//cmp:go_default_library"],
+)
+
+sh_test(
+    name = "go_default_test.accept",
+    size = "small",
+    srcs = [":go_default_test"],
+    args = [
+        "-accept",
+    ],
+    tags = ["manual"],
 )

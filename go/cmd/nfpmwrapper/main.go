@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "context"
 	"log"
 
 	"github.com/ericnorris/rules_nfpm/go/internal/cmd/nfpmwrapper"
