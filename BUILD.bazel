@@ -1,0 +1,7 @@
+load("@io_bazel_rules_go//go:def.bzl", "nogo")
+
+nogo(
+    name = "rules_nfpm_nogo",
+    vet = True,
+    visibility = ["//visibility:public"],
+)

@@ -88,7 +88,7 @@ func (c *Cmd) generateNFPMConfig() (nfpm.Config, error) {
 	stableStatus, err := parseWorkspaceStatus(stableFile)
 
 	if err != nil {
-		return nfpm.Config{}, errors.Wrapf(err, "error parsing workspace status keys in '%s'", stableFile)
+		return nfpm.Config{}, errors.Wrapf(err, "error parsing workspace status keys in '%s'", stableFile.Name())
 	}
 
 	volatileFile, err := os.Open(c.VolatileStatus)
@@ -100,7 +100,7 @@ func (c *Cmd) generateNFPMConfig() (nfpm.Config, error) {
 	volatileStatus, err := parseWorkspaceStatus(volatileFile)
 
 	if err != nil {
-		return nfpm.Config{}, errors.Wrapf(err, "error parsing workspace status keys in '%s'", volatileFile)
+		return nfpm.Config{}, errors.Wrapf(err, "error parsing workspace status keys in '%s'", volatileFile.Name())
 	}
 
 	dependencies, err := parseDeps(c.Deps)

@@ -2,9 +2,9 @@ load("@io_bazel_rules_go//go:deps.bzl", "go_rules_dependencies", "go_register_to
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 load("//nfpm/internal:maybe_go_repository.bzl", go_repository = "maybe_go_repository")
 
-def rules_nfpm_go_dependencies():
+def rules_nfpm_go_dependencies(nogo = None):
     go_rules_dependencies()
-    go_register_toolchains()
+    go_register_toolchains(nogo = nogo)
     gazelle_dependencies()
 
     _rules_nfpm_go_repositories()
