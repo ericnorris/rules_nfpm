@@ -1,4 +1,5 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
+load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 
 gazelle(name = "gazelle")
 
@@ -24,4 +25,9 @@ sh_binary(
         "-to_macro=nfpm/go_repositories.bzl%_rules_nfpm_go_repositories",
         "-prune=true",
     ],
+)
+
+buildifier(
+    name = "buildifier",
+    lint_mode = "fix",
 )
