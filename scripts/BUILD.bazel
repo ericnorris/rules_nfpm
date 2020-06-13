@@ -10,7 +10,6 @@ sh_binary(
         "-bazel_run",
         "update",
         "-mode=fix",
-        "-index=false",
         "go/",
     ],
 )
@@ -24,6 +23,17 @@ sh_binary(
         "-from_file go/go.mod",
         "-to_macro=nfpm/go_repositories.bzl%_rules_nfpm_go_repositories",
         "-prune=true",
+    ],
+)
+
+sh_binary(
+    name = "generate-example-go-build-files",
+    srcs = [":gazelle-runner"],
+    args = [
+        "-bazel_run",
+        "update",
+        "-mode=fix",
+        "example/",
     ],
 )
 

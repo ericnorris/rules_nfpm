@@ -1,0 +1,9 @@
+name:    helloworld
+version: "{{ .StableStatus.STABLE_GIT_VERSION }}-{{ .StableStatus.STABLE_GIT_BRANCH }}"
+arch:    amd64
+
+description: |
+    helloworld is a typical "hello, world" program. This package was generated at {{ .VolatileStatus.ISO8601_DATE }}.
+
+files:
+  "{{ index .Dependencies `//cmd/helloworld:helloworld`}}": /usr/bin/helloworld

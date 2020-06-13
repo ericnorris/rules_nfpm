@@ -1,0 +1,8 @@
+# Show information about failures.
+build --verbose_failures
+test --test_output=errors
+test --test_verbose_timeout_warnings
+
+# https://docs.bazel.build/versions/master/user-manual.html#workspace_status
+# calling realpath due to https://github.com/bazelbuild/bazel/issues/5002
+build --workspace_status_command="$(realpath workspace-status.sh)"
