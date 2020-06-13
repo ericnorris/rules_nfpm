@@ -15,33 +15,62 @@ import (
 	"github.com/pkg/errors"
 )
 
+// Package formats supported by this wrapper and NFPM.
 const (
 	FormatDeb = "deb"
 	FormatRPM = "rpm"
 )
 
-var extensionFormatMap = map[string]string{
+// ExtensionFormatMap is a map of package extension to package format.
+var ExtensionFormatMap = map[string]string{
 	".deb": FormatDeb,
 	".rpm": FormatRPM,
 }
 
+// ConfigTemplateData is the data available for use inside of the NFPM YAML
+// config.
 type ConfigTemplateData struct {
-	StableStatus   map[string]string
+	// StableStatus contains the key-value pairs in stable-status.txt. See
+	// https://docs.bazel.build/versions/master/user-manual.html#workspace_status
+	// for details.
+	StableStatus map[string]string
+
+	// VolatileStatus contains the key-value pairs in volatile-status.txt. See
+	// https://docs.bazel.build/versions/master/user-manual.html#workspace_status
+	// for details.
 	VolatileStatus map[string]string
-	Dependencies   map[string]string
+
+	// Dependencies is a map of a bazel dependencies. The map key is the label
+	// of the dependency, and the map value is the dependency's path. For
+	// example, "//path/to/package:target": "path/to/output".
+	Dependencies map[string]string
 }
 
+// Cmd is a struct defining parameters for templating an NFPM config and
+// generating a package using NFPM.
 type Cmd struct {
-	Config         string   `name:"config" type:"existingfile"`
-	StableStatus   string   `name:"stable-status" type:"existingfile"`
-	VolatileStatus string   `name:"volatile-status" type:"existingfile"`
-	Deps           []string `name:"dep"`
-	Output         string   `arg`
+	// Config is the path to a config file that will be used as a template.
+	Config string `name:"config" type:"existingfile"`
+
+	// StableStatus and Volatile status are paths to bazel's workspace status
+	// files.
+	StableStatus   string `name:"stable-status" type:"existingfile"`
+	VolatileStatus string `name:"volatile-status" type:"existingfile"`
+
+	// Deps is an array of label-path pairs, delimited by an equals (=) sign.
+	Deps []string `name:"dep"`
+
+	// Output is the desired path for the generated package. The extension is
+	// used to lookup the package format in ExtensionFormatMap.
+	Output string `arg`
 }
 
+// Run uses the value of the Cmd struct and generates a DEB or RPM package using
+// NFPM. The specified config value is executed as a text/template template in
+// order to populate the file with information from bazel.
 func (c *Cmd) Run() error {
 	extension := filepath.Ext(c.Output)
-	packageFormat, ok := extensionFormatMap[extension]
+	packageFormat, ok := ExtensionFormatMap[extension]
 
 	if !ok {
 		return errors.Errorf("unknown extension: '%s'", extension)
