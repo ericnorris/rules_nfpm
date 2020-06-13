@@ -8,7 +8,7 @@ main() {
     echo "STABLE_GIT_BRANCH develop"
 
     # "volatile" keys
-    echo "IS08601_DATE $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+    echo "ISO8601_DATE $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 }
 
 main "$@"
