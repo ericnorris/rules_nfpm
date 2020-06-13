@@ -1,4 +1,4 @@
-load("@bazel_skylib//lib:unittest.bzl", "asserts", "analysistest")
+load("@bazel_skylib//lib:unittest.bzl", "analysistest", "asserts")
 load(":nfpm_package.bzl", "nfpm_package")
 
 def _provider_contents_test_impl(ctx):
@@ -19,7 +19,7 @@ def _test_provider_contents():
     nfpm_package(
         name = "provider_contents_package.rpm",
         config = "not-a-real-config.yaml",
-        tags = ["manual"]
+        tags = ["manual"],
     )
 
     provider_contents_test(
@@ -41,10 +41,14 @@ def _inspect_actions_test_impl(ctx):
     pkg_output = pkg_action.outputs.to_list()[0]
 
     want_args = [
-        "--config", "nfpm/internal/not-a-real-config.yaml",
-        "--stable-status", "bazel-out/stable-status.txt",
-        "--volatile-status", "bazel-out/volatile-status.txt",
-        "--dep", "//nfpm/internal:not-a-real-dep=nfpm/internal/not-a-real-dep",
+        "--config",
+        "nfpm/internal/not-a-real-config.yaml",
+        "--stable-status",
+        "bazel-out/stable-status.txt",
+        "--volatile-status",
+        "bazel-out/volatile-status.txt",
+        "--dep",
+        "//nfpm/internal:not-a-real-dep=nfpm/internal/not-a-real-dep",
         pkg_output.path,
     ]
 
@@ -63,7 +67,7 @@ def _test_inspect_actions():
         deps = [
             ":not-a-real-dep",
         ],
-        tags = ["manual"]
+        tags = ["manual"],
     )
 
     inspect_actions_test(
