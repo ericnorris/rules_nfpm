@@ -42,7 +42,7 @@ nfpm_package = rule(
             allow_files = True,
         ),
         "_nfpm": attr.label(
-            default = "@//go/cmd/nfpmwrapper",
+            default = "//go/cmd/nfpmwrapper",
             cfg = "host",
             executable = True,
         ),
