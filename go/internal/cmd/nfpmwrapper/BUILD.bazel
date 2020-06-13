@@ -2,7 +2,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
     name = "go_default_library",
-    srcs = ["nfpmwrapper.go"],
+    srcs = [
+        "doc.go",
+        "nfpmwrapper.go",
+    ],
     importpath = "github.com/ericnorris/rules_nfpm/go/internal/cmd/nfpmwrapper",
     visibility = ["//:__subpackages__"],
     deps = [
