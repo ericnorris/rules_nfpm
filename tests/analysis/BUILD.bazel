@@ -1,0 +1,3 @@
+load(":nfpm_package_test.bzl", "nfpm_package_test_suite")
+
+nfpm_package_test_suite(name = "nfpm_package_test")
