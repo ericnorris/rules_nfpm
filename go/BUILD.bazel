@@ -1,1 +1,7 @@
 # gazelle:prefix github.com/ericnorris/rules_nfpm/go
+
+filegroup(
+    name = "package-contents",
+    srcs = glob(["*"]),
+    visibility = ["//:__subpackages__"],
+)

@@ -5,3 +5,15 @@ nogo(
     vet = True,
     visibility = ["//visibility:public"],
 )
+
+filegroup(
+    name = "release-files",
+    srcs = [
+        "//go:package-contents",
+        "//go/cmd/nfpmwrapper:package-contents",
+        "//go/internal/cmd/nfpmwrapper:package-contents",
+        "//nfpm:package-contents",
+        "//nfpm/internal:package-contents",
+    ],
+    visibility = ["//:__subpackages__"],
+)

@@ -16,3 +16,9 @@ go_binary(
     embed = [":go_default_library"],
     visibility = ["//visibility:public"],
 )
+
+filegroup(
+    name = "package-contents",
+    srcs = glob(["*"]),
+    visibility = ["//:__subpackages__"],
+)

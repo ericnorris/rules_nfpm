@@ -37,9 +37,11 @@ nfpm_package = rule(
         "config": attr.label(
             mandatory = True,
             allow_single_file = True,
+            doc = "NFPM configuration file template."
         ),
         "deps": attr.label_list(
             allow_files = True,
+            doc = "Dependencies for this target. The output path of each dependency will be available in the `.Dependencies` map in the configuration file template, keyed by the dependency's label."
         ),
         "_nfpm": attr.label(
             default = "//go/cmd/nfpmwrapper",
@@ -47,4 +49,23 @@ nfpm_package = rule(
             executable = True,
         ),
     },
+    doc = """
+Generates a package using [NFPM](https://github.com/goreleaser/nfpm/).
+
+The config file is templatized using the `go` [text/template](https://golang.org/pkg/text/template/) library. The dot (`.`) value is a [ConfigTemplateData](https://pkg.go.dev/github.com/ericnorris/rules_nfpm/go/internal/cmd/nfpmwrapper?tab=doc#ConfigTemplateData) struct.
+
+### Example
+
+```starlark
+nfpm_package(
+    name = "helloworld.deb",
+    config = "helloworld.yaml",
+    deps = [
+        "//cmd/helloworld",
+    ],
+)
+```
+
+See the [example directory](/example/README.md) for a more comprehensive example.
+"""
 )

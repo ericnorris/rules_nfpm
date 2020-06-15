@@ -1,6 +1,10 @@
 load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@com_github_bazelbuild_buildtools//buildifier:def.bzl", "buildifier")
 
+#
+# Gazelle scripts
+#
+
 gazelle(name = "gazelle")
 
 sh_binary(
@@ -37,7 +41,26 @@ sh_binary(
     ],
 )
 
+#
+# Buildifier
+#
+
 buildifier(
     name = "buildifier",
     lint_mode = "fix",
+)
+
+#
+# README.md
+#
+
+sh_binary(
+    name = "generate-readme",
+    srcs = [":generate-readme.sh"],
+    data = [
+        "//docs:repository-readme",
+    ],
+    args = [
+        "$(locations //docs:repository-readme)",
+    ],
 )
