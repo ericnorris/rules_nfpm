@@ -1,5 +1,8 @@
 workspace(name = "com_github_ericnorris_rules_nfpm_example")
 
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# Note: see the README for the latest http_archive details for this repository.
 local_repository(
     name = "com_github_ericnorris_rules_nfpm",
     path = "../",
@@ -18,8 +21,6 @@ load("@com_github_ericnorris_rules_nfpm//nfpm:go_repositories.bzl", "rules_nfpm_
 rules_nfpm_go_dependencies()
 
 # Dependencies needed for building the 'helloworld' binary
-
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "io_bazel_rules_go",

@@ -37,7 +37,7 @@ def _stardoc_dependencies():
         http_archive,
         name = "io_bazel_stardoc",
         urls = [
-            "https://github.com/bazelbuild/stardoc/archive/1ef781ced3b1443dca3ed05dec1989eca1a4e1cd.zip"
+            "https://github.com/bazelbuild/stardoc/archive/1ef781ced3b1443dca3ed05dec1989eca1a4e1cd.zip",
         ],
         strip_prefix = "stardoc-1ef781ced3b1443dca3ed05dec1989eca1a4e1cd",
         sha256 = "5d7191bb0800434a9192d8ac80cba4909e96dbb087c5d51f168fedd7bde7b525",

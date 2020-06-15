@@ -1,4 +1,7 @@
-exports_files(glob(["*.bzl"]), visibility = ["//:__subpackages__"])
+exports_files(
+    glob(["*.bzl"]),
+    visibility = ["//:__subpackages__"],
+)
 
 filegroup(
     name = "package-contents",

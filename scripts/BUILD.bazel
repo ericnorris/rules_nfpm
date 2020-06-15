@@ -57,10 +57,10 @@ buildifier(
 sh_binary(
     name = "generate-readme",
     srcs = [":generate-readme.sh"],
-    data = [
-        "//docs:repository-readme",
-    ],
     args = [
         "$(locations //docs:repository-readme)",
+    ],
+    data = [
+        "//docs:repository-readme",
     ],
 )

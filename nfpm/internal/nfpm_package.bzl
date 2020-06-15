@@ -37,11 +37,11 @@ nfpm_package = rule(
         "config": attr.label(
             mandatory = True,
             allow_single_file = True,
-            doc = "NFPM configuration file template."
+            doc = "NFPM configuration file template.",
         ),
         "deps": attr.label_list(
             allow_files = True,
-            doc = "Dependencies for this target. The output path of each dependency will be available in the `.Dependencies` map in the configuration file template, keyed by the dependency's label."
+            doc = "Dependencies for this target. The output path of each dependency will be available in the `.Dependencies` map in the configuration file template, keyed by the dependency's label.",
         ),
         "_nfpm": attr.label(
             default = "//go/cmd/nfpmwrapper",
@@ -67,5 +67,5 @@ nfpm_package(
 ```
 
 See the [example directory](/example/README.md) for a more comprehensive example.
-"""
+""",
 )
