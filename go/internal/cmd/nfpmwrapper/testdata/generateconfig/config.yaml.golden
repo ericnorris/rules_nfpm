@@ -5,5 +5,6 @@ arch:    amd64
 description: |
     this is a package, it was generated at 1591634962.
 
-files:
-  "example.txt": /etc/example.txt
+contents:
+  - src: "example.txt"
+    dst: /etc/example.txt

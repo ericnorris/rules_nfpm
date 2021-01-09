@@ -8,5 +8,6 @@ description: |
     helloworld prints "hello, world" and then exits. This particular package was generated at
     {{ .VolatileStatus.ISO8601_DATE }}.
 
-files:
-  "{{ index .Dependencies `//cmd/helloworld:helloworld`}}": /usr/bin/helloworld
+contents:
+  - src: "{{ index .Dependencies `//cmd/helloworld:helloworld`}}"
+    dst: /usr/bin/helloworld

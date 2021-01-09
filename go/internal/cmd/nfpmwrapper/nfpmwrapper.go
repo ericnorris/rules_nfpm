@@ -9,9 +9,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/goreleaser/nfpm"
-	_ "github.com/goreleaser/nfpm/deb"
-	_ "github.com/goreleaser/nfpm/rpm"
+	"github.com/goreleaser/nfpm/v2"
+	_ "github.com/goreleaser/nfpm/v2/deb"
+	_ "github.com/goreleaser/nfpm/v2/rpm"
 	"github.com/pkg/errors"
 )
 
