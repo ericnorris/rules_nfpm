@@ -1,7 +1,7 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
 
 go_library(
-    name = "go_default_library",
+    name = "nfpmwrapper",
     srcs = [
         "doc.go",
         "nfpmwrapper.go",
@@ -9,29 +9,29 @@ go_library(
     importpath = "github.com/ericnorris/rules_nfpm/go/internal/cmd/nfpmwrapper",
     visibility = ["//:__subpackages__"],
     deps = [
-        "@com_github_goreleaser_nfpm_v2//:go_default_library",
-        "@com_github_goreleaser_nfpm_v2//deb:go_default_library",
-        "@com_github_goreleaser_nfpm_v2//rpm:go_default_library",
-        "@com_github_pkg_errors//:go_default_library",
+        "@com_github_goreleaser_nfpm_v2//:nfpm",
+        "@com_github_goreleaser_nfpm_v2//deb",
+        "@com_github_goreleaser_nfpm_v2//rpm",
+        "@com_github_pkg_errors//:errors",
     ],
 )
 
 go_test(
-    name = "go_default_test",
+    name = "nfpmwrapper_test",
     size = "small",
     srcs = ["nfpmwrapper_test.go"],
     data = glob(["testdata/**"]),
-    embed = [":go_default_library"],
+    embed = [":nfpmwrapper"],
     deps = [
-        "@com_github_google_go_cmp//cmp:go_default_library",
-        "@com_github_google_go_cmp//cmp/cmpopts:go_default_library",
+        "@com_github_google_go_cmp//cmp",
+        "@com_github_google_go_cmp//cmp/cmpopts",
     ],
 )
 
 sh_test(
-    name = "go_default_test.accept",
+    name = "nfmpwrapper_test.accept",
     size = "small",
-    srcs = [":go_default_test"],
+    srcs = [":nfpmwrapper_test"],
     args = [
         "-accept",
     ],
