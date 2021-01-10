@@ -19,11 +19,11 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "com_github_ericnorris_rules_nfpm",
-    sha256 = "761afa3f4e82dbed90b6b76c82bee8e7661bb8b7a51ac538daa0191b6252a914",
+    sha256 = "800ebc64eac94d5ec6589e98a904c8c13aaad1ae0a981550de47a5ad7f72c660",
     urls = [
-        "https://github.com/ericnorris/rules_nfpm/archive/v1.0.0.tar.gz",
+        "https://github.com/ericnorris/rules_nfpm/archive/v2.0.0.tar.gz",
     ],
-    strip_prefix = "rules_nfpm-1.0.0",
+    strip_prefix = "rules_nfpm-2.0.0",
 )
 
 load("@com_github_ericnorris_rules_nfpm//nfpm:repositories.bzl", "rules_nfpm_dependencies")
