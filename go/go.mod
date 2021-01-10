@@ -1,4 +1,4 @@
-module github.com/ericnorris/rules_nfpm/go
+module github.com/ericnorris/rules_nfpm/go/v2
 
 go 1.14
 
