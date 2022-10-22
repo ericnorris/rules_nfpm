@@ -17,7 +17,7 @@ def _buildifier_dependencies():
     maybe(
         http_archive,
         name = "com_google_protobuf",
-        strip_prefix = "protobuf-master",
+        strip_prefix = "protobuf-main",
         urls = ["https://github.com/protocolbuffers/protobuf/archive/master.zip"],
     )
 
