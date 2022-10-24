@@ -31,6 +31,16 @@ sh_binary(
     ],
 )
 
+gazelle(
+    name = "gazelle-update-repos",
+    args = [
+        "-from_file=go/go.mod",
+        "-to_macro=nfpm/go_repositories.bzl%_rules_nfpm_go_repositories",
+        "-prune",
+    ],
+    command = "update-repos",
+)
+
 sh_binary(
     name = "generate-example-go-build-files",
     srcs = [":gazelle-runner"],
