@@ -214,17 +214,18 @@ def _rules_nfpm_go_repositories():
     )
     go_repository(
         name = "com_github_goreleaser_fileglob",
-        build_directives = ["gazelle:go_naming_convention_external go_default_library"],
         importpath = "github.com/goreleaser/fileglob",
         sum = "h1:/X6J7U8lbDpQtBvGcwwPS6OpzkNVlVEsFUVRx9+k+7I=",
         version = "v1.3.0",
+        
     )
     go_repository(
         name = "com_github_goreleaser_nfpm_v2",
-        build_directives = ["gazelle:go_naming_convention_external go_default_library"],
         importpath = "github.com/goreleaser/nfpm/v2",
         sum = "h1:nL7sXwsMLsc+NWE4Eddev+ZZomRaucT0WSnWkLwuxBM=",
         version = "v2.26.0",
+        patch_args = ["-p1"],
+        patches = ["//nfpm:nfpm.patch"]
     )
 
     go_repository(
@@ -662,7 +663,7 @@ def _rules_nfpm_go_repositories():
         build_directives = ["gazelle:go_naming_convention_external go_default_library"],
         importpath = "gopkg.in/yaml.v2",
         sum = "h1:/eiJrUcujPVeJ3xlSWaiNi3uSVmDGBK1pDHUHAnao1I=",
-        version = "v2.2.4",
+        version = "v2.4.0",
     )
 
     go_repository(
