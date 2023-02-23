@@ -1,0 +1,15 @@
+diff --git a/files/files.go b/files/files.go
+index 7b220fe..f0c9c6b 100644
+--- a/files/files.go
++++ b/files/files.go
+@@ -193,10 +193,6 @@ func appendGlobbedFiles(all Contents, globbed map[string]string, origFile *Conte
+ 			FileInfo:    newFileInfo,
+ 			Packager:    origFile.Packager,
+ 		}).WithFileInfoDefaults()
+-		if dst, err := os.Readlink(src); err == nil {
+-			newFile.Source = dst
+-			newFile.Type = "symlink"
+-		}
+ 
+ 		all = append(all, newFile)
+ 	}
