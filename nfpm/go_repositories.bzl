@@ -1,4 +1,5 @@
-load("//nfpm/internal:maybe_go_repository.bzl", go_repository = "maybe_go_repository")
+#load("//nfpm/internal:maybe_go_repository.bzl", go_repository = "maybe_go_repository")
+load("@bazel_gazelle//:deps.bzl", "go_repository")
 
 def rules_nfpm_go_dependencies():
     _rules_nfpm_go_repositories()
