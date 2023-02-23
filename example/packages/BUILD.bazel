@@ -1,4 +1,4 @@
-load("@com_github_ericnorris_rules_nfpm//nfpm:defs.bzl", "nfpm_package")
+load("@com_github_fancom_rules_nfpm//nfpm:defs.bzl", "nfpm_package")
 
 nfpm_package(
     name = "helloworld.rpm",

@@ -1,4 +1,4 @@
-workspace(name = "com_github_ericnorris_rules_nfpm")
+workspace(name = "com_github_fancom_rules_nfpm")
 
 load("//nfpm:repositories.bzl", "rules_nfpm_dependencies")
 

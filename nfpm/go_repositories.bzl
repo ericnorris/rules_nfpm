@@ -225,7 +225,7 @@ def _rules_nfpm_go_repositories():
         sum = "h1:nL7sXwsMLsc+NWE4Eddev+ZZomRaucT0WSnWkLwuxBM=",
         version = "v2.26.0",
         patch_args = ["-p1"],
-        patches = ["//nfpm:nfpm.patch"]
+        patches = ["@com_github_fancom_rules_nfpm//nfpm:nfpm.patch"]
     )
 
     go_repository(
