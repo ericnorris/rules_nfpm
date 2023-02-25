@@ -1,4 +1,4 @@
-module github.com/fancom/rules_nfpm/go/v2
+module github.com/fancom/rules_nfpm/v2
 
 go 1.18
 
