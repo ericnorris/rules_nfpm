@@ -24,7 +24,7 @@ sh_binary(
     args = [
         "-bazel_run",
         "update-repos",
-        "-from_file go/go.mod",
+        "-from_file go.mod",
         "-to_macro=nfpm/go_repositories.bzl%_rules_nfpm_go_repositories",
         "-build_directives \"gazelle:go_naming_convention_external go_default_library\"",
         "-prune=true",
@@ -34,7 +34,7 @@ sh_binary(
 gazelle(
     name = "gazelle-update-repos",
     args = [
-        "-from_file=go/go.mod",
+        "-from_file=go.mod",
         "-to_macro=nfpm/go_repositories.bzl%_rules_nfpm_go_repositories",
         "-prune",
     ],
