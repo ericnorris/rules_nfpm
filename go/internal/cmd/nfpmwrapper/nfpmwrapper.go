@@ -203,8 +203,7 @@ func parseDeps(deps []string) (map[string]string, error) {
 		if len(labelPathPair) != 2 {
 			return nil, errors.Errorf("found malformed dep label/path pair: '%s'", dep)
 		}
-
-		bazelDeps[labelPathPair[0]] = labelPathPair[1]
+		bazelDeps[strings.Trim(labelPathPair[0], "'@")] = strings.Trim(labelPathPair[1], "'")
 	}
 
 	return bazelDeps, nil
