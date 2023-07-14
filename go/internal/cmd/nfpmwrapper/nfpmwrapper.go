@@ -44,6 +44,8 @@ type ConfigTemplateData struct {
 	// of the dependency, and the map value is the dependency's path. For
 	// example, "//path/to/package:target": "path/to/output".
 	Dependencies map[string]string
+	// Target platform x86_64 or aarch64
+	Platform string
 }
 
 // Cmd is a struct defining parameters for templating an NFPM config and
@@ -59,6 +61,8 @@ type Cmd struct {
 
 	// Deps is an array of label-path pairs, delimited by an equals (=) sign.
 	Deps []string `name:"dep"`
+
+	Platform string
 
 	// Output is the desired path for the generated package. The extension is
 	// used to lookup the package format in ExtensionFormatMap.
@@ -162,6 +166,7 @@ func (c *Cmd) generateNFPMConfig() (string, error) {
 		StableStatus:   stableStatus,
 		VolatileStatus: volatileStatus,
 		Dependencies:   dependencies,
+		Platform:       c.Platform,
 	}
 
 	if err := t.Execute(&builder, templateData); err != nil {
