@@ -5,8 +5,11 @@ def _nfpm_package_impl(ctx):
         fail("unknown package format: " + package_file.extension)
 
     nfpm_args = ctx.actions.args()
+    _amd64_constraint = ctx.attr._amd64_constraint[platform_common.ConstraintValueInfo]
+    platform =  "x86_64" if ctx.target_platform_has_constraint(_amd64_constraint) else "aarch64"
 
     nfpm_args.add("--config", ctx.file.config)
+    nfpm_args.add("--platform", platform)
     nfpm_args.add("--stable-status", ctx.info_file)
     nfpm_args.add("--volatile-status", ctx.version_file)
     nfpm_args.add_all(ctx.files.deps, before_each = "--dep", map_each = _format_dep)
@@ -48,6 +51,7 @@ nfpm_package = rule(
             cfg = "host",
             executable = True,
         ),
+        '_amd64_constraint': attr.label(default = '@platforms//cpu:x86_64'),
     },
     doc = """
 Generates a package using [NFPM](https://github.com/goreleaser/nfpm/).
