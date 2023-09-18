@@ -117,6 +117,10 @@ func (c *Cmd) Run() error {
 	return nil
 }
 
+func contains(s, substr string) bool {
+	return strings.Contains(s, substr)
+}
+
 func (c *Cmd) generateNFPMConfig() (string, error) {
 	stableFile, err := os.Open(c.StableStatus)
 
@@ -154,7 +158,7 @@ func (c *Cmd) generateNFPMConfig() (string, error) {
 		return "", errors.Wrap(err, "error reading config template")
 	}
 
-	t, err := template.New("nfpm-config").Parse(string(config))
+	t, err := template.New("nfpm-config").Funcs(template.FuncMap{"contains": contains}).Parse(string(config))
 
 	if err != nil {
 		return "", errors.Wrap(err, "error parsing config template")
