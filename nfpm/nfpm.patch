@@ -13,3 +13,16 @@ index 7b220fe..f0c9c6b 100644
  
  		all = append(all, newFile)
  	}
+diff --git a/rpm/rpm.go b/rpm/rpm.go
+index d9559ba..a2bbd42 100644
+--- a/rpm/rpm.go
++++ b/rpm/rpm.go
+@@ -253,7 +253,7 @@ func formatVersion(info *nfpm.Info) string {
+ 	version := info.Version
+ 
+ 	if info.Prerelease != "" {
+-		version += "~" + info.Prerelease
++		version += "-" + info.Prerelease
+ 	}
+ 
+ 	if info.VersionMetadata != "" {
