@@ -3,10 +3,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 go_library(
     name = "nfpmwrapper_lib",
     srcs = ["main.go"],
-    importpath = "github.com/ericnorris/rules_nfpm/go/cmd/nfpmwrapper",
+    importpath = "github.com/ericnorris/rules_nfpm/go/v2/cmd/nfpmwrapper",
     visibility = ["//visibility:private"],
     deps = [
-        "//go/internal/cmd/nfpmwrapper",
+        "//go/v2/internal/cmd/nfpmwrapper",
         "@com_github_alecthomas_kong//:kong",
     ],
 )
@@ -15,6 +15,16 @@ go_binary(
     name = "nfpmwrapper",
     embed = [":nfpmwrapper_lib"],
     visibility = ["//visibility:public"],
+)
+
+sh_test(
+    name = "nfmpwrapper_test.accept",
+    size = "small",
+    srcs = [":nfpmwrapper_test"],
+    args = [
+        "-accept",
+    ],
+    tags = ["manual"],
 )
 
 filegroup(

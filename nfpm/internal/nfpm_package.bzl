@@ -29,7 +29,13 @@ def _nfpm_package_impl(ctx):
     return [DefaultInfo(files = depset([package_file]))]
 
 def _format_dep(file):
-    return "{}={}".format(file.owner, file.path)
+    file_owner_str = str(file.owner)
+    if file_owner_str.startswith("@//"):
+        # Since bazel 7+, owner for consistency started to be prefixed with '@' - even in case of a local repository.
+        # To avoid need to change existing config files, we bring back the '//package/...' notation for within-repo
+        # targets.
+        file_owner_str = file_owner_str.removeprefix("@")
+    return "{}={}".format(file_owner_str, file.path)
 
 nfpm_package = rule(
     _nfpm_package_impl,
@@ -44,8 +50,8 @@ nfpm_package = rule(
             doc = "Dependencies for this target. The output path of each dependency will be available in the `.Dependencies` map in the configuration file template, keyed by the dependency's label.",
         ),
         "_nfpm": attr.label(
-            default = "//go/cmd/nfpmwrapper",
-            cfg = "host",
+            default = "//go/v2/cmd/nfpmwrapper",
+            cfg = "exec",
             executable = True,
         ),
     },

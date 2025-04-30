@@ -33,8 +33,6 @@ def _inspect_actions_test_impl(ctx):
 
     target_under_test = analysistest.target_under_test(env)
 
-    print(dir(target_under_test))
-
     actions = analysistest.target_actions(env)
 
     asserts.equals(env, 1, len(actions))
@@ -52,7 +50,7 @@ def _inspect_actions_test_impl(ctx):
         "--volatile-status",
         "bazel-out/volatile-status.txt",
         "--dep",
-        "{}={}".format(dep_file.owner, dep_file.path),
+        "{}={}".format(str(dep_file.owner).removeprefix("@"), dep_file.path),
         pkg_output.path,
     ]
 

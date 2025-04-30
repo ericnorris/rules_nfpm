@@ -55,13 +55,13 @@ buildifier(
 # README.md
 #
 
-sh_binary(
-    name = "generate-readme",
-    srcs = [":generate-readme.sh"],
-    args = [
-        "$(locations //docs:repository-readme)",
-    ],
-    data = [
-        "//docs:repository-readme",
-    ],
-)
+#sh_binary(
+#    name = "generate-readme",
+#    srcs = [":generate-readme.sh"],
+#    args = [
+#        "$(locations //docs:repository-readme)",
+#    ],
+#    data = [
+#        "//docs:repository-readme",
+#    ],
+#)
