@@ -1,7 +1,9 @@
 name:    test-package
 version: v1.0.0
-arch:    amd64
+arch:    {{ .Arch }}
 
 contents:
   - src: "{{ index .Dependencies `//tests:meow.txt`}}"
     dst: /etc/meow.txt
+
+description: "{{ .Envs }}"

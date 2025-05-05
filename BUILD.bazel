@@ -1,3 +1,4 @@
+load("@bazel_gazelle//:def.bzl", "gazelle")
 load("@io_bazel_rules_go//go:def.bzl", "nogo")
 
 nogo(
@@ -9,11 +10,25 @@ nogo(
 filegroup(
     name = "release-files",
     srcs = [
-        "//go:package-contents",
-        "//go/cmd/nfpmwrapper:package-contents",
-        "//go/internal/cmd/nfpmwrapper:package-contents",
+        "//go/v2:package-contents",
+        "//go/v2/cmd/nfpmwrapper:package-contents",
+        "//go/v2/internal/cmd/nfpmwrapper:package-contents",
         "//nfpm:package-contents",
         "//nfpm/internal:package-contents",
     ],
     visibility = ["//:__subpackages__"],
+)
+
+# gazelle:prefix github.com/ericnorris/rules_nfpm
+gazelle(name = "gazelle")
+
+gazelle(
+    name = "gazelle-update-repos",
+    args = [
+        "-from_file=go/v2/go.mod",
+        "-to_macro=deps.bzl%go_dependencies",
+        "-prune",
+        "-build_file_proto_mode=disable_global",
+    ],
+    command = "update-repos",
 )

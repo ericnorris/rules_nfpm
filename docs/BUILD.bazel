@@ -13,6 +13,7 @@ bzl_library(
     srcs = [
         "//nfpm:package-contents",
         "//nfpm/internal:package-contents",
+        "@aspect_bazel_lib//lib:transitions",
     ],
 )
 

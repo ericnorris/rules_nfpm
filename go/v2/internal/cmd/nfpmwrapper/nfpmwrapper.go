@@ -44,6 +44,15 @@ type ConfigTemplateData struct {
 	// of the dependency, and the map value is the dependency's path. For
 	// example, "//path/to/package:target": "path/to/output".
 	Dependencies map[string]string
+
+	// Env is a map of envs variables supplied to the bazel rule. This variables
+	// can be used to pass arbitrary values from the bazel rules attributes
+	// to the config. It can be used together with make variables expansion: 
+	// https://bazel.build/reference/be/make-variables#predefined_label_variables
+	Envs map[string]string
+
+	// Architecture of the package. Defaults to 'all'
+	Arch string
 }
 
 // Cmd is a struct defining parameters for templating an NFPM config and
@@ -59,6 +68,12 @@ type Cmd struct {
 
 	// Deps is an array of label-path pairs, delimited by an equals (=) sign.
 	Deps []string `name:"dep"`
+
+	// Envs is an array of label-path pairs, delimited by an equals (=) sign.
+	Envs []string `name:"env"`
+
+	// Arch is a string def
+	Arch string `name:"arch"`
 
 	// Output is the desired path for the generated package. The extension is
 	// used to lookup the package format in ExtensionFormatMap.
@@ -144,6 +159,14 @@ func (c *Cmd) generateNFPMConfig() (string, error) {
 		return "", err
 	}
 
+	envs, err := parseEnvs(c.Envs)
+
+	if err != nil {
+		return "", err
+	}
+
+	arch := c.Arch
+
 	config, err := ioutil.ReadFile(c.Config)
 
 	if err != nil {
@@ -162,6 +185,8 @@ func (c *Cmd) generateNFPMConfig() (string, error) {
 		StableStatus:   stableStatus,
 		VolatileStatus: volatileStatus,
 		Dependencies:   dependencies,
+		Envs: 			envs,
+		Arch: 			arch,
 	}
 
 	if err := t.Execute(&builder, templateData); err != nil {
@@ -194,8 +219,8 @@ func parseWorkspaceStatus(r io.ReadCloser) (map[string]string, error) {
 	return entries, nil
 }
 
-func parseDeps(deps []string) (map[string]string, error) {
-	bazelDeps := make(map[string]string)
+func parseKV(deps []string) (map[string]string, error) {
+	kv := make(map[string]string)
 
 	for _, dep := range deps {
 		labelPathPair := strings.SplitN(dep, "=", 2)
@@ -204,8 +229,17 @@ func parseDeps(deps []string) (map[string]string, error) {
 			return nil, errors.Errorf("found malformed dep label/path pair: '%s'", dep)
 		}
 
-		bazelDeps[labelPathPair[0]] = labelPathPair[1]
+		kv[labelPathPair[0]] = labelPathPair[1]
 	}
 
-	return bazelDeps, nil
+	return kv, nil
+}
+
+func parseDeps(deps []string) (map[string]string, error) {
+	return parseKV(deps)
+}
+
+
+func parseEnvs(envs []string) (map[string]string, error) {
+	return parseKV(envs)
 }

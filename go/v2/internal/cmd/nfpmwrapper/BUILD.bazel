@@ -6,8 +6,8 @@ go_library(
         "doc.go",
         "nfpmwrapper.go",
     ],
-    importpath = "github.com/ericnorris/rules_nfpm/go/internal/cmd/nfpmwrapper",
-    visibility = ["//:__subpackages__"],
+    importpath = "github.com/ericnorris/rules_nfpm/go/v2/internal/cmd/nfpmwrapper",
+    visibility = ["//go/v2:__subpackages__"],
     deps = [
         "@com_github_goreleaser_nfpm_v2//:nfpm",
         "@com_github_goreleaser_nfpm_v2//deb",

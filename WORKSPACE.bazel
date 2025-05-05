@@ -1,0 +1,56 @@
+workspace(name = "com_github_ericnorris_rules_nfpm")
+
+load("//nfpm:repositories.bzl", "rules_nfpm_dependencies")
+
+rules_nfpm_dependencies()
+
+load("//nfpm:setup.bzl", "rules_nfpm_setup")
+
+# the nogo parameter is not needed by users of rules_nfpm
+rules_nfpm_setup(nogo = "@//:rules_nfpm_nogo")
+
+load("//nfpm:go_repositories.bzl", "rules_nfpm_go_dependencies")
+
+# gazelle:repository_macro deps.bzl%go_dependencies
+rules_nfpm_go_dependencies()
+
+#
+# Dependencies not needed by users of rules_nfpm
+#
+
+load("//nfpm/internal:repositories.bzl", "rules_nfpm_internal_dependencies")
+
+rules_nfpm_internal_dependencies()
+
+# ----------------------------------------------------------------------
+# Snippet from: https://github.com/bazelbuild/stardoc/releases/tag/0.8.0
+# Not worth to //nfpm/internal as these are multiple phases of downloads of repository and loads
+# that need to be in separate files (or top-level WORKSPACE).
+load("@io_bazel_stardoc//:setup.bzl", "stardoc_repositories")
+
+stardoc_repositories()
+
+load("@rules_java//java:rules_java_deps.bzl", "rules_java_dependencies")
+
+rules_java_dependencies()
+
+load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+
+protobuf_deps()
+
+load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
+
+rules_jvm_external_deps()
+
+load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
+
+rules_jvm_external_setup()
+
+load("@io_bazel_stardoc//:deps.bzl", "stardoc_external_deps")
+
+stardoc_external_deps()
+
+load("@stardoc_maven//:defs.bzl", stardoc_pinned_maven_install = "pinned_maven_install")
+
+stardoc_pinned_maven_install()
+# ----------------------------------------------------------------------

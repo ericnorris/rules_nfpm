@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/ericnorris/rules_nfpm/go/internal/cmd/nfpmwrapper"
+	"github.com/ericnorris/rules_nfpm/go/v2/internal/cmd/nfpmwrapper"
 
 	"github.com/alecthomas/kong"
 )

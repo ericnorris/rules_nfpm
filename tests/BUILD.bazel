@@ -1,4 +1,4 @@
-load("//nfpm:defs.bzl", "nfpm_package")
+load("//nfpm:defs.bzl", "nfpm_package", "nfpm_packages")
 
 filegroup(
     name = "text-files",
@@ -11,10 +11,49 @@ nfpm_package(
     name = "test.rpm",
     config = "test-config.yaml",
     deps = [":text-files"],
+    arch = "dummy-arch",
+    envs = {
+        "foo":"bar",
+        "testpath": "$(rootpaths :text-files)",
+    }
 )
 
 nfpm_package(
     name = "test.deb",
     config = "test-config.yaml",
     deps = [":text-files"],
+    envs = {
+        "foo":"bar",
+        "testpath": "$(rootpaths :text-files)",
+    }
+)
+
+platform(
+    name = "linux_x86_64",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+)
+
+platform(
+    name = "linux_arm64",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:arm64",
+    ],
+)
+
+nfpm_packages(
+    name = "test_crossarch.rpm",
+    config = "test-config.yaml",
+    deps = [":text-files"],
+    envs = {
+        "foo":"bar",
+        "testpath": "$(rootpaths :text-files)",
+    },
+    archs = {
+        "test.x86_64.rpm": ":linux_x86_64",
+        "test.arm64.rpm": ":linux_arm64",
+    }
 )
